@@ -1,0 +1,19 @@
+# Node / herramientas
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Hardhat / build
+artifacts/
+cache/
+coverage/
+typechain/
+
+# Entornos / SO
+.env
+.env.*
+.DS_Store
+
+# Otros builds
+dist/
+build/

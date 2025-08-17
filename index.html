@@ -2,7 +2,10 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>✅ Web3 To-Do List</title>
 
     <!-- Estilos propios (sin Tailwind) -->
@@ -15,21 +18,40 @@
         <!-- Encabezado -->
         <header class="header">
           <h1 class="title">✅ Web3 To-Do List</h1>
-          <p class="subtitle">Conecta tu wallet y administra tus tareas en la blockchain.</p>
+          <p class="subtitle">
+            Conecta tu wallet y administra tus tareas en la blockchain.
+          </p>
         </header>
 
         <!-- Controles -->
         <section class="controls">
-          <button id="connect" type="button" class="btn btn--primary">Conectar</button>
-          <input id="todo" class="input" placeholder="Nueva tarea..." autocomplete="off" />
-          <button id="add" type="button" class="btn btn--success">Agregar</button>
+          <button id="connect" type="button" class="btn btn--primary">
+            Conectar
+          </button>
+          <input
+            id="todo"
+            class="input"
+            placeholder="Nueva tarea..."
+            autocomplete="off"
+          />
+          <button id="add" type="button" class="btn btn--success">
+            Agregar
+          </button>
+          <button id="clear" type="button" class="btn btn--danger">
+            Clear
+          </button>
         </section>
 
         <!-- Contador -->
         <div id="counter" class="counter">📝 0 tareas</div>
 
         <!-- Lista -->
-        <ul id="tasks" class="list" aria-live="polite" aria-label="Lista de tareas">
+        <ul
+          id="tasks"
+          class="list"
+          aria-live="polite"
+          aria-label="Lista de tareas"
+        >
           <!-- Las tareas se renderizan desde app.js -->
         </ul>
 

@@ -34,26 +34,26 @@ async function init() {
 }
 // Llevamos un registro de tareas ya renderizadas
 const renderedTaskIds = new Set();
-
+const CLEAR_KEY = "clearTimestamp";
+let clearTimestamp = Number(localStorage.getItem(CLEAR_KEY) || 0);
 async function renderTasks() {
   const list = document.getElementById("tasks");
   const count = document.getElementById("counter");
   if (!list) return;
 
-  // Pedimos todas las tareas del contrato
   const tasks = await contract.getMyTasks();
 
-  // Recorremos y agregamos solo las nuevas
-  let nuevos = 0;
-  tasks.forEach((t) => {
+  let visibles = tasks.filter(
+    (t) => Number(t.timestamp) * 1000 > clearTimestamp
+  );
+
+  visibles.forEach((t) => {
     const key = `task-${t.id}`;
-    if (renderedTaskIds.has(key)) return; // ya existe en el DOM
+    if (renderedTaskIds.has(key)) return;
 
-    // Crear elemento <li>
     const li = document.createElement("li");
-    li.className = "task-enter"; // aquí entra la animación
+    li.className = "task-enter";
 
-    // Contenedor izquierda (checkbox + texto)
     const left = document.createElement("div");
     left.className = "flex items-center gap-2";
 
@@ -76,7 +76,6 @@ async function renderTasks() {
 
     left.append(cb, txt);
 
-    // Timestamp
     const time = document.createElement("span");
     time.className = "time";
     time.textContent = new Date(Number(t.timestamp) * 1000).toLocaleString();
@@ -85,12 +84,13 @@ async function renderTasks() {
     list.appendChild(li);
 
     renderedTaskIds.add(key);
-    nuevos++;
   });
 
-  // Actualizar contador
-  count.textContent = `📝 ${tasks.length} ${tasks.length === 1 ? "tarea" : "tareas"}`;
+  count.textContent = `📝 ${visibles.length} ${
+    visibles.length === 1 ? "tarea" : "tareas"
+  }`;
 }
+
 
 
 document.getElementById("connect")?.addEventListener("click", init);
@@ -108,6 +108,17 @@ document.getElementById("add")?.addEventListener("click", async () => {
   } finally {
     document.getElementById("add").disabled = false;
   }
+});
+
+document.getElementById("clear")?.addEventListener("click", () => {
+  clearTimestamp = Date.now();
+  localStorage.setItem(CLEAR_KEY, clearTimestamp);
+
+  const list = document.getElementById("tasks");
+  if (list) list.innerHTML = "";
+
+  renderedTaskIds.clear();
+  document.getElementById("counter").textContent = "📝 0 tareas";
 });
 
 window.addEventListener("load", async () => {

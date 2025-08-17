@@ -199,6 +199,13 @@ body {
   will-change: transform;
 }
 
+.btn--danger {
+  background: linear-gradient(180deg, #e11d48, #be123c);
+  box-shadow: 0 10px 24px rgba(225,29,72,.25);
+}
+.btn--danger:hover { filter: brightness(1.06); }
+
+
 .btn:active {
   transform: translateY(1px) scale(0.99);
 }

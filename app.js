@@ -32,19 +32,28 @@ async function init() {
 
   await renderTasks();
 }
+// Llevamos un registro de tareas ya renderizadas
+const renderedTaskIds = new Set();
 
 async function renderTasks() {
   const list = document.getElementById("tasks");
   const count = document.getElementById("counter");
   if (!list) return;
 
-  list.innerHTML = "";
+  // Pedimos todas las tareas del contrato
   const tasks = await contract.getMyTasks();
-  tasks.forEach((t) => {
-    const li = document.createElement("li");
-    li.className =
-      "flex items-center justify-between p-2 border-b border-gray-200";
 
+  // Recorremos y agregamos solo las nuevas
+  let nuevos = 0;
+  tasks.forEach((t) => {
+    const key = `task-${t.id}`;
+    if (renderedTaskIds.has(key)) return; // ya existe en el DOM
+
+    // Crear elemento <li>
+    const li = document.createElement("li");
+    li.className = "task-enter"; // aquí entra la animación
+
+    // Contenedor izquierda (checkbox + texto)
     const left = document.createElement("div");
     left.className = "flex items-center gap-2";
 
@@ -63,20 +72,26 @@ async function renderTasks() {
 
     const txt = document.createElement("span");
     txt.textContent = t.text;
-    if (t.done) txt.className = "line-through text-gray-500";
+    txt.className = "task-text" + (t.done ? " done" : "");
 
     left.append(cb, txt);
 
+    // Timestamp
     const time = document.createElement("span");
-    time.className = "text-xs text-gray-500";
+    time.className = "time";
     time.textContent = new Date(Number(t.timestamp) * 1000).toLocaleString();
 
     li.append(left, time);
     list.appendChild(li);
+
+    renderedTaskIds.add(key);
+    nuevos++;
   });
 
+  // Actualizar contador
   count.textContent = `📝 ${tasks.length} ${tasks.length === 1 ? "tarea" : "tareas"}`;
 }
+
 
 document.getElementById("connect")?.addEventListener("click", init);
 

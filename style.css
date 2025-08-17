@@ -1,0 +1,326 @@
+/*
+ * Global Styles & Variables
+ * ----------------------------------------------------------------------------
+ * Defines root variables and universal box-sizing for consistent layout.
+ * Sets a base font, background, and motion preference for accessibility.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color Palette */
+  --color-bg-primary: #0b0f1a;
+  --color-bg-secondary: #0f172a;
+  --color-text-primary: #e6eaf2;
+  --color-text-muted: #9aa4b2;
+  --color-primary: #3a82f6;
+  --color-primary-dark: #2f6ee0;
+  --color-success: #21c55d;
+  --color-success-dark: #17a34a;
+
+  /* UI Components */
+  --color-card-bg: rgba(255, 255, 255, 0.1);
+  --color-card-border: rgba(255, 255, 255, 0.18);
+  --color-ring: rgba(58, 130, 246, 0.45);
+  --color-placeholder: #b5becc;
+  --color-list-bg: rgba(255, 255, 255, 0.04);
+  --color-list-border: rgba(255, 255, 255, 0.12);
+  --color-list-divider: rgba(255, 255, 255, 0.06);
+
+  /* Spacing, Sizing & Shadow */
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --border-radius: 12px;
+  --card-radius: 16px;
+  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.45);
+  --shadow-button-primary: 0 10px 24px rgba(58, 130, 246, 0.25);
+  --shadow-button-success: 0 10px 24px rgba(33, 197, 93, 0.25);
+  --shadow-focus: 0 0 0 6px rgba(58, 130, 246, 0.2);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #1a2a6c20, transparent 60%),
+    radial-gradient(1000px 700px at 110% 10%, #3a82f620, transparent 60%),
+    linear-gradient(180deg, var(--color-bg-secondary), var(--color-bg-primary));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reduce-motion * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/*
+ * Layout
+ * ----------------------------------------------------------------------------
+ * Core structure for the page and main components.
+ */
+.page {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg) var(--space-md);
+}
+
+.card {
+  width: min(720px, 96vw);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  padding: var(--space-lg);
+}
+
+/*
+ * Animations
+ * ----------------------------------------------------------------------------
+ * Defines keyframe animations for user experience.
+ */
+@keyframes enter {
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animación de entrada para nuevas tareas */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.task-enter {
+  animation: fadeInUp 420ms cubic-bezier(.25,.46,.45,.94) both;
+}
+
+
+
+.animate-enter {
+  animation: enter 620ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/*
+ * Typography
+ * ----------------------------------------------------------------------------
+ * Styling for text elements like titles and subtitles.
+ */
+.title {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-size: clamp(22px, 2.5vw, 28px);
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+/*
+ * Forms & Controls
+ * ----------------------------------------------------------------------------
+ * Styles for input fields and buttons. Includes accessible focus states.
+ */
+.controls {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 640px) {
+  .controls {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-list-border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.input::placeholder {
+  color: var(--color-placeholder);
+}
+
+.input:focus {
+  border-color: var(--color-ring);
+  box-shadow: 0 0 0 6px rgba(58, 130, 246, 0.14);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.btn {
+  appearance: none;
+  user-select: none;
+  border: 0;
+  border-radius: var(--border-radius);
+  padding: 10px 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.06s ease, filter 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  will-change: transform;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
+  box-shadow: var(--shadow-button-primary);
+}
+
+.btn--primary:hover {
+  filter: brightness(1.06);
+}
+
+.btn--success {
+  background: linear-gradient(180deg, var(--color-success), var(--color-success-dark));
+  box-shadow: var(--shadow-button-success);
+}
+
+.btn--success:hover {
+  filter: brightness(1.06);
+}
+
+/* Accessible focus state for inputs and buttons */
+.btn:focus-visible,
+.input:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: var(--shadow-focus);
+  transition-duration: 0.05s;
+}
+
+/*
+ * Counter
+ * ----------------------------------------------------------------------------
+ * Styling for the task counter.
+ */
+.counter {
+  margin-top: var(--space-sm);
+  color: #cfd6e4;
+  font-weight: 600;
+}
+
+/*
+ * Task List
+ * ----------------------------------------------------------------------------
+ * Container and item styles for the to-do list.
+ */
+.list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  background: var(--color-list-bg);
+  border: 1px solid var(--color-list-border);
+  border-radius: var(--border-radius);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  max-height: 420px;
+  overflow: auto;
+}
+
+/* Custom scrollbars for better aesthetics */
+.list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.list {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-width: thin;
+}
+
+.list > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--color-list-divider);
+}
+
+.list > li:first-child {
+  border-top: 0;
+}
+
+.list input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-success);
+  cursor: pointer;
+}
+
+.task-text {
+  flex-grow: 1;
+}
+
+.task-text.done {
+  text-decoration: line-through;
+  color: #98a3b3;
+}
+
+.time {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/*
+ * Footer
+ * ----------------------------------------------------------------------------
+ * Styling for the page footer.
+ */
+.footer {
+  margin-top: 14px;
+  color: #97a1b1;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.9;
+}

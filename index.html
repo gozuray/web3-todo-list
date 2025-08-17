@@ -2,100 +2,49 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>✅ Web3 To-Do List</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Accesibilidad: reducir animaciones si el usuario lo prefiere -->
-    <style>
-      @media (prefers-reduced-motion: reduce) {
-        .reduce-motion * {
-          transition: none !important;
-          animation: none !important;
-        }
-      }
-      /* Animación suave de entrada del contenedor */
-      @keyframes slide-up-soft {
-        from { transform: translateY(16px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-      }
-      .animate-slide-up-soft {
-        animation: slide-up-soft 600ms cubic-bezier(.25,.46,.45,.94) both;
-      }
-    </style>
+    <!-- Estilos propios (sin Tailwind) -->
+    <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body class="reduce-motion bg-gray-100 min-h-screen antialiased">
-    <main class="container mx-auto px-4 py-10">
-      <div
-        class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-6 space-y-5 animate-slide-up-soft"
-      >
+  <body class="reduce-motion">
+    <main class="page">
+      <div class="card animate-enter">
         <!-- Encabezado -->
-        <header class="space-y-1">
-          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            ✅ Web3 To-Do List
-          </h1>
-          <p class="text-gray-600">
-            Conecta tu wallet y administra tus tareas en la blockchain.
-          </p>
+        <header class="header">
+          <h1 class="title">✅ Web3 To-Do List</h1>
+          <p class="subtitle">Conecta tu wallet y administra tus tareas en la blockchain.</p>
         </header>
 
-        <!-- Controles principales -->
-        <section class="flex flex-col sm:flex-row gap-2">
-          <button
-            id="connect"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition whitespace-nowrap"
-            type="button"
-          >
-            Conectar
-          </button>
-
-          <input
-            id="todo"
-            class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Nueva tarea..."
-            autocomplete="off"
-          />
-
-          <button
-            id="add"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition whitespace-nowrap"
-            type="button"
-          >
-            Agregar
-          </button>
+        <!-- Controles -->
+        <section class="controls">
+          <button id="connect" type="button" class="btn btn--primary">Conectar</button>
+          <input id="todo" class="input" placeholder="Nueva tarea..." autocomplete="off" />
+          <button id="add" type="button" class="btn btn--success">Agregar</button>
         </section>
 
         <!-- Contador -->
-        <div id="counter" class="text-gray-700 font-medium">📝 0 tareas</div>
+        <div id="counter" class="counter">📝 0 tareas</div>
 
-        <!-- Lista de tareas -->
-        <ul
-          id="tasks"
-          class="divide-y divide-gray-200 bg-gray-50 rounded-lg shadow-inner max-h-96 overflow-y-auto"
-        >
+        <!-- Lista -->
+        <ul id="tasks" class="list" aria-live="polite" aria-label="Lista de tareas">
           <!-- Las tareas se renderizan desde app.js -->
         </ul>
 
-        <!-- Nota -->
-        <footer class="text-xs text-gray-400 text-center">
-          Construido con ❤️ usando Solidity, Hardhat, Ethers.js y Tailwind CSS
+        <!-- Pie -->
+        <footer class="footer">
+          Construido con ❤️ usando Solidity, Hardhat y Ethers.js
         </footer>
       </div>
     </main>
 
     <!-- Librería Ethers v5 (UMD) -->
     <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-
-    <!-- Tu configuración (coloca aquí la address de despliegue) -->
+    <!-- Config (address del contrato) -->
     <script src="config.js"></script>
-
-    <!-- Lógica de la app (interacción con el contrato) -->
+    <!-- Lógica de la app -->
     <script src="app.js"></script>
   </body>
 </html>
